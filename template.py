@@ -1,0 +1,56 @@
+import os
+from pathlib import Path
+import logging
+
+# Create a logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+# Create a formatter
+formatter = logging.Formatter('[%(asctime)s]:%(message)s:')
+
+# Create a stream handler and set the formatter
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+
+# Add the stream handler to the logger
+logger.addHandler(stream_handler)
+
+
+project_name = 'cnnClassifier'
+
+list_of_files = [
+    "github/workflows/.gitkeep",
+    f"src/{project_name}/__init__.py",
+    f"src/{project_name}/components/__init__.py",
+    f"src/{project_name}/utils/__init__.py",
+    f"src/{project_name}/config/__init__.py",
+    f"src/{project_name}/config/configuration/__init__.py",
+    f"src/{project_name}/pipeline/__init__.py",
+    f"src/{project_name}/entity/__init__.py",
+    f"src/{project_name}/constants/__init__.py",
+    "config/config.yaml",
+    "dvc.yaml",
+    "params.yaml",
+    "requirements.txt",
+    "setup.py",
+    "research/trials.ipynb",
+    "templates/index.html"
+]
+
+for filepath in list_of_files:
+    filepath = Path(filepath)
+    filedir, filename = os.path.split(filepath)
+
+    if filedir != "":
+        os.makedirs(filedir, exist_ok=True)
+        logging.info(f"Creating directory; {filedir} for the file: {filename}")
+
+    if (not os.path.exists(filepath)) or (os.path.getsize(filepath) == 0):
+        with open(filepath, "w") as f:
+            pass
+            logging.info(f"Creating empty file: {filepath}")
+    else:
+        logging.info(f" {filename} is already exists")
+
+
